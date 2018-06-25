@@ -1,0 +1,3 @@
+sudo systemctl start mssql-server
+sudo systemctl stop mssql-server
+systemctl status mssql-server
