@@ -1,0 +1,4 @@
+mysql> SELECT YEAR(CURRENT_TIMESTAMP) -
+    ->          YEAR("1999-04-15") -
+    ->              (RIGHT(CURRENT_TIMESTAMP, 5) <
+    ->                   RIGHT("1999-04-15", 5)) as age;
