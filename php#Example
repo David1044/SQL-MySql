@@ -1,0 +1,116 @@
+ Table | Create Table                                                                                                                                                                                      |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| genre | CREATE TABLE `genre` (
+  `genreID` int(5) NOT NULL,
+  `genreType` varchar(25) NOT NULL,
+  `genreDesc` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`genreID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> show create table movie;
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                        |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| movie | CREATE TABLE `movie` (
+  `movieID` int(5) NOT NULL,
+  `movieTitle` varchar(50) NOT NULL,
+  `movieDesc` varchar(150) DEFAULT NULL,
+  `movieReleaseDate` date DEFAULT NULL,
+  `movieRuntime` int(3) DEFAULT NULL,
+  `movieCertificate` varchar(4) DEFAULT NULL,
+  `movieRating` int(1) DEFAULT NULL,
+  PRIMARY KEY (`movieID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> show create table movie_genre;
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table       | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| movie_genre | CREATE TABLE `movie_genre` (
+  `movie_genreID` int(5) NOT NULL,
+  `m_movieID` int(5) NOT NULL,
+  `g_genreID` int(5) NOT NULL,
+  PRIMARY KEY (`movie_genreID`),
+  KEY `movie_genre_fk_movie` (`m_movieID`),
+  KEY `movie_genre_fk_genre` (`g_genreID`),
+  CONSTRAINT `movie_genre_fk_genre` FOREIGN KEY (`g_genreID`) REFERENCES `genre` (`genreID`),
+  CONSTRAINT `movie_genre_fk_movie` FOREIGN KEY (`m_movieID`) REFERENCES `movie` (`movieID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from genre;
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| genreID | genreType  | genreDesc                                                                                                                                                                                     |
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|       1 | Drama      | Drama film is a genre that relies on the emotional and relational development of realistic characters                                                                                         |
+|       2 | Crime      | Films that focus on crime                                                                                                                                                                     |
+|       3 | Action     | Action film is a film genre in which the protagonist or protagonists end up in a series of challenges that typically include violence, extended fighting, physical feats, and frantic chases. |
+|       4 | Comic Book | Film adaptions from comic books and graphic novels                                                                                                                                            |
+|       5 | Sci-Fi     | Films of speculative fiction, typically dealing with imaginative concepts such as futuristic science and tech                                                                                 |
+|       6 | Mystery    | Is a type of fiction in which a detective, or other professional, solves a crime or series of crimes                                                                                          |
+|       7 | Adventure  | An adventure is an event or series of events that happens outside the course of the protagonist's ordinary life, usually accompanied by danger, often by physical action.                     |
+|       8 | Comedy     | Comedy is a genre of film in which the main emphasis is on humor.                                                                                                                             |
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+8 rows in set (0.01 sec)
+
+mysql> select id from genre where genreType = 'Drama';
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> select genreID from genre where genreType = 'Drama';
++---------+
+| genreID |
++---------+
+|       1 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select * from movie_genre where m_movieID in (select genreID from genre where genreType = 'Drama');
++---------------+-----------+-----------+
+| movie_genreID | m_movieID | g_genreID |
++---------------+-----------+-----------+
+|             1 |         1 |         1 |
++---------------+-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select m_movieID from movie_genre where m_movieID in (select genreID from genre where genreType = 'Drama');
++-----------+
+| m_movieID |
++-----------+
+|         1 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from movie where movieID in (select m_movieID from movie_genre where m_movieID in (select genreID from genre where genreType = 'Drama'));
++---------+--------------------------+------------------------------------------------+------------------+--------------+------------------+-------------+
+| movieID | movieTitle               | movieDesc                                      | movieReleaseDate | movieRuntime | movieCertificate | movieRating |
++---------+--------------------------+------------------------------------------------+------------------+--------------+------------------+-------------+
+|       1 | The Shawshank Redemption | Two imprisoned men bond over a number of years | 1994-10-14       |          142 | 18               |           5 |
++---------+--------------------------+------------------------------------------------+------------------+--------------+------------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from genre;
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| genreID | genreType  | genreDesc                                                                                                                                                                                     |
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|       1 | Drama      | Drama film is a genre that relies on the emotional and relational development of realistic characters                                                                                         |
+|       2 | Crime      | Films that focus on crime                                                                                                                                                                     |
+|       3 | Action     | Action film is a film genre in which the protagonist or protagonists end up in a series of challenges that typically include violence, extended fighting, physical feats, and frantic chases. |
+|       4 | Comic Book | Film adaptions from comic books and graphic novels                                                                                                                                            |
+|       5 | Sci-Fi     | Films of speculative fiction, typically dealing with imaginative concepts such as futuristic science and tech                                                                                 |
+|       6 | Mystery    | Is a type of fiction in which a detective, or other professional, solves a crime or series of crimes                                                                                          |
+|       7 | Adventure  | An adventure is an event or series of events that happens outside the course of the protagonist's ordinary life, usually accompanied by danger, often by physical action.                     |
+|       8 | Comedy     | Comedy is a genre of film in which the main emphasis is on humor.                                                                                                                             |
++---------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from movie where movieID in (select m_movieID from movie_genre where m_movieID in (select genreID from genre where genreType = 'Mystery'));
++---------+------------+-----------------------------------------------------------------------------+------------------+--------------+------------------+-------------+
+| movieID | movieTitle | movieDesc                                                                   | movieReleaseDate | movieRuntime | movieCertificate | movieRating |
++---------+------------+-----------------------------------------------------------------------------+------------------+--------------+------------------+-------------+
+|       6 | The Matrix | A hacker learns from mysterious rebels about the true nature of his reality | 1999-03-31       |          136 | 18               |           4 |
++---------+------------+-----------------------------------------------------------------------------+------------------+--------------+------------------+-------------+
+1 row in set (0.00 sec)
