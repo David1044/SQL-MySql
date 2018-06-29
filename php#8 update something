@@ -1,0 +1,2 @@
+update poster
+	set posterLink = ifnull(posterLink, 'http://www.uidownload.com/files/478/82/442/error-404-page-not-found-icon.jpg');
