@@ -1,0 +1,1 @@
+select songName from song, artiste, song_artiste where artisteID = a_artisteID and songID = s_songID and artisteName = 'Artiste';
