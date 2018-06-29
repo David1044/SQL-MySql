@@ -1,0 +1,48 @@
+#1 Necesitas escribir el nombre de lo que deseas seleccionar
+Ejemplo: select movieTitle, songName, soundtrackName, artistName
+
+#2 Selecciona de que "Grupo" deseas tomar los datos anteriores
+Ejemplo: from movie, song, soundtrack, artiste, soundtrack_song, song_artiste
+
+#3 En donde......
+Ejemplo: where movieID = m_movieID and soundtrackID = soundtrack_soundtrackID and song_songID = songID and songID = s_songID and a_artisteID = artisteID; 
+
+Codigo completo:
+
+mysql> select movieTitle, songName, soundtrackName, artisteName
+    -> from movie, song, soundtrack, artiste, soundtrack_song, song_artiste
+    -> where movieID = m_movieID and soundtrackID = soundtrack_soundtrackID and song_songID = songID and songID = s_songID and a_artisteID = artisteID;
+
+
+Resultado:    
+
+
++--------------------------+-----------------------------+-------------------------------------------------------------+-----------------+
+| movieTitle               | songName                    | soundtrackName                                              | artisteName     |
++--------------------------+-----------------------------+-------------------------------------------------------------+-----------------+
+| The Shawshank Redemption | May                         | The Shawshank Redemption Soundtrack                         | Thomas Newman   |
+| The Shawshank Redemption | Shawshank Prison            | The Shawshank Redemption Soundtrack                         | Thomas Newman   |
+| The Shawshank Redemption | New Fish                    | The Shawshank Redemption Soundtrack                         | Thomas Newman   |
+| The Shawshank Redemption | Rock Hammer                 | The Shawshank Redemption Soundtrack                         | Thomas Newman   |
+| The Shawshank Redemption | An Inch of his life         | The Shawshank Redemption Soundtrack                         | Thomas Newman   |
+| The Godfather            | The Godfather Waltz         | The Godfather Soundtrack                                    | Nino Rota       |
+| The Godfather            | I have but one heart        | The Godfather Soundtrack                                    | Joe Bloggs      |
+| The Godfather            | The Pickup                  | The Godfather Soundtrack                                    | Nino Rota       |
+| The Godfather            | Connies Wedding             | The Godfather Soundtrack                                    | Carmine Coppola |
+| The Dark Knight          | Miller Compilation          | The Dark Knight                                             | Hans Zimmer     |
+| American Psycho          | Hip to be Square            | American Psycho: Music from the Controversial movie picture | Hughie Lewis    |
+| Pulp Fiction             | Son of a Preacher Man       | Music from the Motion Picture Pulp Fiction                  | John Hurley     |
+| Pulp Fiction             | Girl, Youll be a Woman Soon | Music from the Motion Picture Pulp Fiction                  | Neil Diamond    |
+| The Matrix               | Rock is Dead                | The Matrix, Music, Music from the Motion Picture            | Marilyn Manson  |
+| The Matrix               | Dragula                     | The Matrix, Music, Music from the Motion Picture            | Rob Zombie      |
+| Logan                    | Make it Bang                | Logan Music                                                 | Baauer          |
+| Logan                    | I got a name                | Logan Music                                                 | Jim Croce       |
+| The Prestige             | Are you watching closely    | The Prestige: Original Score                                | David Julyan    |
+| The Prestige             | The light field             | The Prestige: Original Score                                | David Julyan    |
+| The Prestige             | Border Meets Sarah          | The Prestige: Original Score                                | David Julyan    |
+| The Prestige             | No, not today               | The Prestige: Original Score                                | David Julyan    |
+| Interstellar             | Interstellar compilation    | Interstellar Soundtrack                                     | Hans Zimmer     |
+| The Wolf of Wall Street  | Bang Bang                   | The Wolf Of Wall Street                                     | Joe Cuba        |
+| The Wolf of Wall Street  | Pretty Thing                | The Wolf Of Wall Street                                     | Bo Diddley      |
+| The Wolf of Wall Street  | Smokestack Lightning        | The Wolf Of Wall Street                                     | Howlin Wolf     |
++--------------------------+-----------------------------+-------------------------------------------------------------+-----------------+
