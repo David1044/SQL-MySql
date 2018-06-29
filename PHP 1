@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First PHP page</h1>
+
+<?php
+$color ="red";
+echo"My car is " . $color . "<br>" ;
+echo "My House is " . $color . "<br>";
+echo "My boat is " . $color . "<br>";
+ ?>
+
+</body>
+</html>
